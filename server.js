@@ -1,14 +1,12 @@
-// server.js
-
 const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('./config/db');  // config/db.js에서 연결한 데이터베이스를 가져옴
 
-// JWT 비밀키
-const JWT_SECRET = 'your_jwt_secret_key';
+// 필요한 라우터 불러오기
+const registerRoutes = require('./routes/registerRoutes');
+const loginRoutes = require('./routes/loginRoutes');
+const gameRoutes = require('./routes/gameRoutes');  // 게임 데이터 관련 라우터 추가
 
 const app = express();
 
@@ -16,86 +14,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// 회원가입 API
-app.post('/register', (req, res) => {
-    const { userId, email, password } = req.body;
-
-    // 비밀번호 해싱
-    bcrypt.hash(password, 10, (err, hashedPassword) => {
-        if (err) {
-            console.error('비밀번호 해싱 실패:', err);
-            return res.status(500).json({ error: '비밀번호 해싱 실패' });
-        }
-
-        // SQL 쿼리 (회원가입)
-        const query = 'INSERT INTO users (userId, email, password) VALUES (?, ?, ?)';
-        
-        db.query(query, [userId, email, hashedPassword], (err, result) => {
-            if (err) {
-                console.error('회원가입 실패:', err);
-                return res.status(500).json({ error: '회원가입 실패' });
-            }
-            res.status(200).json({ message: '회원가입 성공!' });
-        });
-    });
-});
-
-// 로그인 API
-app.post('/login', (req, res) => {
-    const { userId, password } = req.body;
-
-    // SQL 쿼리 (사용자 정보 조회)
-    const query = 'SELECT * FROM users WHERE userId = ?';
-    
-    db.query(query, [userId], (err, result) => {
-        if (err) {
-            console.error('로그인 실패:', err);
-            return res.status(500).json({ error: '로그인 실패' });
-        }
-
-        // 사용자 존재하지 않음
-        if (result.length === 0) {
-            return res.status(401).json({ error: '아이디 또는 비밀번호가 잘못되었습니다.' });
-        }
-
-        const user = result[0];
-
-        // 비밀번호 비교
-        bcrypt.compare(password, user.password, (err, isMatch) => {
-            if (err) {
-                console.error('비밀번호 비교 실패:', err);
-                return res.status(500).json({ error: '로그인 실패' });
-            }
-
-            // 비밀번호 일치하지 않음
-            if (!isMatch) {
-                return res.status(401).json({ error: '아이디 또는 비밀번호가 잘못되었습니다.' });
-            }
-
-            // JWT 토큰 생성
-            const token = jwt.sign({ userId: user.userId }, JWT_SECRET, { expiresIn: '1h' });
-
-            res.status(200).json({ message: '로그인 성공!', token });
-        });
-    });
-});
-
-// 게임 데이터 저장 API
-app.post('/saveGameData', (req, res) => {
-    const { userId, score, genre, year, artist, hipster } = req.body;
-
-    // SQL 쿼리
-    const query = 'INSERT INTO game_data (userId, score, genre, year, artist, hipster) VALUES (?, ?, ?, ?, ?, ?)';
-    
-    // 데이터베이스에 데이터 삽입
-    db.query(query, [userId, score, genre, year, artist, hipster], (err, result) => {
-        if (err) {
-            console.error('데이터 저장 실패:', err);
-            return res.status(500).json({ error: '데이터 저장 실패' });
-        }
-        res.status(200).json({ message: '데이터가 성공적으로 저장되었습니다!' });
-    });
-});
+// 라우터 사용
+app.use('/register', registerRoutes);  // '/register' 경로로 들어오는 요청을 registerRoutes로 처리
+app.use('/login', loginRoutes);  // '/login' 경로로 들어오는 요청을 loginRoutes로 처리
+app.use('/game', gameRoutes);  // '/game' 경로로 들어오는 요청을 gameRoutes로 처리
 
 // 서버 실행
 const PORT = process.env.PORT || 3001;
