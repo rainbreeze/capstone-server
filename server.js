@@ -1,36 +1,20 @@
+// server.js
+
 const express = require('express');
-const mysql = require('mysql2');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const db = require('./config/db');  // config/db.js에서 연결한 데이터베이스를 가져옴
 
-// MySQL 데이터베이스 연결 설정
-const db = mysql.createConnection({
-    host: 'maglev.proxy.rlwy.net',
-    user: 'root',
-    password: 'XKgncJXdXqGqAwJTOaPBAuSLxpZRYGqG',
-    database: 'railway',
-    port: 30153
-});
-
-// 데이터베이스 연결
-db.connect((err) => {
-    if (err) {
-        console.error('MySQL 연결 실패:', err);
-        return;
-    }
-    console.log('MySQL 데이터베이스에 연결되었습니다.');
-});
+// JWT 비밀키
+const JWT_SECRET = 'your_jwt_secret_key';
 
 const app = express();
 
 // 미들웨어 설정
 app.use(cors());
 app.use(bodyParser.json());
-
-// JWT 비밀키
-const JWT_SECRET = 'your_jwt_secret_key';
 
 // 회원가입 API
 app.post('/register', (req, res) => {
