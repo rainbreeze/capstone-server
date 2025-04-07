@@ -43,12 +43,6 @@ const searchSpotifyTracks = async (genre, year, hipster) => {
 
     try {
         const response = await axios.get(`${url}?${searchParams.toString()}`, { headers });
-        
-        // 터미널에 추천된 곡 출력
-        console.log('추천된 곡들:');
-        response.data.tracks.items.forEach((track, index) => {
-            console.log(`${index + 1}. ${track.name} - ${track.artists.map(artist => artist.name).join(', ')} (${track.album.name})`);
-        });
 
         return response.data.tracks.items;  // 검색된 트랙 목록 반환
     } catch (error) {
