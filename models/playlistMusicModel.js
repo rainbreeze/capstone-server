@@ -48,7 +48,14 @@ const getPlaylistMusic = async (playlist_id) => {
     }
 };
 
+// 음악 ID로 이미지 URL 조회
+const getImageUrlByPlaylistMusicId = (playlistMusicId, callback) => {
+    const query = 'SELECT album_image_url FROM playlist_music WHERE playlist_music_id = ?';
+    db.execute(query, [playlistMusicId], callback);
+};
+
 module.exports = {
     savePlaylistMusic,
     getPlaylistMusic,
+    getImageUrlByPlaylistMusicId
 };

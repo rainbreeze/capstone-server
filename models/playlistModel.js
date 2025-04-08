@@ -16,6 +16,20 @@ const createPlaylist = (userId, genre) => {
     });
 };
 
+// 플레이리스트 ID 조회
+const getPlaylistIdsByUserId = (userId, callback) => {
+    const query = 'SELECT playlist_id FROM playlists WHERE user_id = ?';
+    db.execute(query, [userId], callback);
+};
+
+// 플레이리스트에 해당하는 음악 ID 조회
+const getPlaylistMusicIdsByPlaylistId = (playlistId, callback) => {
+    const query = 'SELECT playlist_music_id FROM playlist_music WHERE playlist_id = ?';
+    db.execute(query, [playlistId], callback);
+};
+
 module.exports = {
     createPlaylist,
+    getPlaylistIdsByUserId,
+    getPlaylistMusicIdsByPlaylistId
 };
