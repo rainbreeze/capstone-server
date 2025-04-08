@@ -66,6 +66,32 @@ app.get('/playlist/music/:playlistId', (req, res) => {
     });
 });
 
+// music_id로 음악의 이미지 URL만 가져오는 API
+app.get('/music/image/:musicId', (req, res) => {
+    const musicId = req.params.musicId;  // URL에서 musicId 파라미터 가져오기
+
+    // 음악 이미지 URL을 조회하는 쿼리
+    const query = `
+        SELECT album_image_url
+        FROM playlist_music 
+        WHERE playlist_music_id = ?`;
+
+    // MySQL 쿼리 실행
+    db.execute(query, [musicId], (err, results) => {
+        if (err) {
+            console.error('쿼리 실행 중 오류 발생:', err);
+            return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: '해당 음악을 찾을 수 없습니다.' });
+        }
+
+        // 음악 이미지 URL만 반환
+        res.json({ album_image_url: results[0].album_image_url });
+    });
+});
+
 // 라우터 사용
 app.use('/register', registerRoutes);  // '/register' 경로로 들어오는 요청을 registerRoutes로 처리
 app.use('/login', loginRoutes);  // '/login' 경로로 들어오는 요청을 loginRoutes로 처리
