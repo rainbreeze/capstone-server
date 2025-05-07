@@ -34,9 +34,20 @@ const getPlaylistMusicIdsByPlaylistId = (playlistId, callback) => {
     db.execute(query, [playlistId], callback);
 };
 
+const deletePlaylistMusicByPlaylistId = (playlistId, callback) => {
+    const query = 'DELETE FROM playlist_music WHERE playlist_id = ?';
+    db.execute(query, [playlistId], callback);
+}
+const deletePlaylistById = (playlistId, callback) => {
+    const query = 'DELETE FROM playlists WHERE playlist_id = ?';
+    db.execute(query, [playlistId], callback);
+}
+
 module.exports = {
     createPlaylist,
     getPlaylistIdsByUserId,
     getPlaylistMusicIdsByPlaylistId,
-    getCreationTimeByPlaylistId
+    getCreationTimeByPlaylistId,
+    deletePlaylistById,
+    deletePlaylistMusicByPlaylistId
 };

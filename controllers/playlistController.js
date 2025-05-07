@@ -5,6 +5,7 @@ const getPlaylistIds = (req, res) => {
     const userId = req.params.userId;
 
     playlistModel.getPlaylistIdsByUserId(userId, (err, results) => {
+        console.log('유저로부터 ID 가져오기 플레이리스트.')
         if (err) {
             console.error('쿼리 실행 중 오류 발생:', err);
             return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
@@ -61,8 +62,33 @@ const getCreationTime = (req, res) => {
     });
 };
 
+const deletePlaylist = (req,res) => {
+    const { playlistId } = req.params;
+
+    playlistModel.deletePlaylistMusicByPlaylistId(playlistId, (err,result) => {
+        if (err) {
+            console.error('플레이 리스트 음악들 삭제중 오류');
+            return res.status(500).json({message: '서버 오류'});
+        }
+    })
+
+    playlistModel.deletePlaylistById(playlistId, (err,result) => {
+        if (err) {
+            console.error('플레이 리스트 삭제중 오류', err);
+            return res.status(500).json({ message: '서버 오류 발생'});
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({message: '해당 플레이 리스트가 존재하지 않음'});
+        }
+
+        res.json({message: '플레이리스트가 성공적으로 삭제됨.'});
+    })
+};
+
 module.exports = {
     getPlaylistIds,
     getPlaylistMusicIds,
-    getCreationTime
+    getCreationTime,
+    deletePlaylist
 };
