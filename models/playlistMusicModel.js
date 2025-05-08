@@ -54,8 +54,15 @@ const getImageUrlByPlaylistMusicId = (playlistMusicId, callback) => {
     db.execute(query, [playlistMusicId], callback);
 };
 
+// 음악 ID로 장르 조회
+const getGenreByPlaylistMusicId = (playlistMusicId, callback) => {
+    const query = 'SELECT genre FROM playlist_music WHERE playlist_music_id = ?';
+    db.execute(query, [playlistMusicId], callback);
+};
+
 module.exports = {
     savePlaylistMusic,
     getPlaylistMusic,
-    getImageUrlByPlaylistMusicId
+    getImageUrlByPlaylistMusicId,
+    getGenreByPlaylistMusicId
 };

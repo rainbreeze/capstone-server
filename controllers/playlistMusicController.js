@@ -18,6 +18,22 @@ const getImageUrl = (req, res) => {
     });
 };
 
+const getGenre = (req,res) => {
+    const playlistMusicId = req.params.playlistMusicId;
+
+    playlistMusicModel.getGenreByPlaylistMusicId(playlistMusicId, (err,results) => {
+        if (err) {
+            console.error('쿼리 실행중 에러 발생');
+            return res.status(500).json({message: '서버 오류 발생'});
+        }
+        if(results.length === 0) {
+            return res.status(404).json({message: '찾을 수 없음'});
+        }
+        res.json({ genre: results[0].genre});
+    });
+};
+
 module.exports = {
-    getImageUrl
+    getImageUrl,
+    getGenre
 };
