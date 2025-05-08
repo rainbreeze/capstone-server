@@ -10,6 +10,7 @@ const loginRoutes = require('./routes/loginRoutes');
 const gameRoutes = require('./routes/gameRoutes');  // 게임 데이터 관련 라우터 추가
 const playlistRoutes = require('./routes/playlistRoutes');
 const playlistMusicRoutes = require('./routes/playlistMusicRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/login', loginRoutes);  // '/login' 경로로 들어오는 요청을 lo
 app.use('/game', gameRoutes);  // '/game' 경로로 들어오는 요청을 gameRoutes로 처리
 app.use('/playlist', playlistRoutes);
 app.use('/playlistmusic', playlistMusicRoutes);
+app.use('/reviews', reviewRoutes);
 
 // 서버 실행
 const PORT = process.env.PORT || 3001;

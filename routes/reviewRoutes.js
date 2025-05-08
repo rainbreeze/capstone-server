@@ -1,0 +1,14 @@
+const express = require('express');
+const router = express.Router();
+const reviewController = require('../controllers/reviewController');
+
+// 리뷰 등록
+router.post('/', reviewController.createReview);
+
+// 특정 음악에 대한 리뷰 목록 조회
+router.get('/:playlistMusicId', reviewController.getReviews);
+
+// 전체 리뷰 조회 (관리자용)
+router.get('/', reviewController.getAllReviews);
+
+module.exports = router;
