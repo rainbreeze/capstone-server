@@ -26,10 +26,17 @@ const getReviewsByPlaylistMusicId = async (playlist_music_id) => {
 };
 
 // 전체 리뷰 리스트 (예시: 관리자용)
-const getAllReviews = async () => {
-    const query = `SELECT * FROM reviews ORDER BY created_at DESC`;
-    const rows = await db.execute(query);
-    return rows;
+const getAllReviews = (callback) => {
+    const query = `
+        SELECT * FROM reviews
+        ORDER BY created_at DESC 
+        LIMIT 5
+    `;
+    db.query(query, (err, rows) => {
+        console.log('모델 실행')
+        if (err) return callback(err, null);
+        callback(null, rows);
+    });
 };
 
 module.exports = {

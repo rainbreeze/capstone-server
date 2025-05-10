@@ -31,14 +31,15 @@ const getReviews = async (req, res) => {
 };
 
 // 전체 리뷰 조회
-const getAllReviews = async (req, res) => {
-    try {
-        const reviews = await reviewModel.getAllReviews();
+const getAllReviews = (req, res) => {
+    console.log('리뷰 컨트롤러 전체 조회 실행.');
+    reviewModel.getAllReviews((err, reviews) => {
+        if (err) {
+            console.error('전체 리뷰 조회 오류:', err.message);
+            return res.status(500).json({ message: '서버 오류' });
+        }
         res.json(reviews);
-    } catch (error) {
-        console.error('전체 리뷰 조회 오류:', error.message);
-        res.status(500).json({ message: '서버 오류' });
-    }
+    });
 };
 
 module.exports = {
