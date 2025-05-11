@@ -39,8 +39,22 @@ const getAllReviews = (callback) => {
     });
 };
 
+// 특정 리뷰의 like_count를 1 증가시키는 함수
+const incrementLikeCount = (reviewId, callback) => {
+    const query = `
+        UPDATE reviews
+        SET like_count = like_count + 1
+        WHERE review_id = ?
+    `;
+    db.query(query, [reviewId], (err, result) => {
+        if (err) return callback(err, null);
+        callback(null, result);
+    });
+};
+
 module.exports = {
     saveReview,
     getReviewsByPlaylistMusicId,
-    getAllReviews
+    getAllReviews,
+    incrementLikeCount
 };

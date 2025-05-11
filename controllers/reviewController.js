@@ -42,8 +42,18 @@ const getAllReviews = (req, res) => {
     });
 };
 
+// like_count 증가
+const likeReview = (req, res) => {
+    const { reviewId } = req.params;
+    reviewModel.incrementLikeCount(reviewId, (err, result) => {
+        if (err) return res.status(500).json({ error: 'DB error' });
+        res.json({ message: 'Like count increased', result });
+    });
+};
+
 module.exports = {
     createReview,
     getReviews,
-    getAllReviews
+    getAllReviews,
+    likeReview
 };

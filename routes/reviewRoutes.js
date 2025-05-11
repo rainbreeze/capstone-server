@@ -11,4 +11,7 @@ router.get('/:playlistMusicId', reviewController.getReviews);
 // 전체 리뷰 조회 (관리자용)
 router.get('/', reviewController.getAllReviews);
 
+// 리뷰 좋아요 (like_count +1)
+router.post('/:reviewId/like', reviewController.likeReview);
+
 module.exports = router;
