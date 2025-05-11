@@ -51,9 +51,19 @@ const likeReview = (req, res) => {
     });
 };
 
+// like_count 증가
+const unLikeReview = (req, res) => {
+    const { reviewId } = req.params;
+    reviewModel.decrementLikeCount(reviewId, (err, result) => {
+        if (err) return res.status(500).json({ error: 'DB error' });
+        res.json({ message: 'Like count increased', result });
+    });
+};
+
 module.exports = {
     createReview,
     getReviews,
     getAllReviews,
-    likeReview
+    likeReview,
+    unLikeReview
 };

@@ -14,4 +14,7 @@ router.get('/', reviewController.getAllReviews);
 // 리뷰 좋아요 (like_count +1)
 router.post('/:reviewId/like', reviewController.likeReview);
 
+// 리뷰 좋아요 해제 (like_count -1)
+router.post('/:reviewId/unLike', reviewController.unLikeReview);
+
 module.exports = router;
