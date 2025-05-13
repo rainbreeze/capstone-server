@@ -19,6 +19,20 @@ const insertComment = (review_id, user_id, content, callback) => {
     });
 };
 
+const deleteComment = (commentId, callback) => {
+    const query = `
+        DELETE FROM comments WHERE comment_id = ?
+    `
+
+    db.query(query, [commentId], (err, result) =>{
+        if (err) {
+            console.error('댓글 삭제 실패');
+            return callback(err, null);
+        }
+        callback(null,result);
+    });
+}
+
 // 특정 리뷰의 댓글 전체 조회 (선택적으로 추가 가능)
 const getCommentsByReviewId = (review_id, callback) => {
     const query = `
@@ -35,5 +49,6 @@ const getCommentsByReviewId = (review_id, callback) => {
 
 module.exports = {
     insertComment,
+    deleteComment,
     getCommentsByReviewId,
 };

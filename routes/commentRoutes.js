@@ -9,4 +9,6 @@ router.post('/:reviewId/comment', commentController.createComment);
 // GET /reviews/:reviewId/comments - 댓글 목록 조회 (선택)
 router.get('/:reviewId/comment', commentController.getComments);
 
+router.delete('/:commentId', commentController.deleteComment);
+
 module.exports = router;

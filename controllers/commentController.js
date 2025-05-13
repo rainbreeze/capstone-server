@@ -40,7 +40,30 @@ const getComments = (req, res) => {
     });
 };
 
+const deleteComment = (req, res) => {
+    const commentId = req.params.commentId;
+    const userId = req.body.user_id;
+
+    if (!commentId || !userId) {
+        return res.status(400).json({ error: '댓글 ID 또는 user_id가 누락되었습니다.' });
+    }
+
+        commentModel.deleteComment(commentId, (err, result) => {
+        if (err) {
+            console.error('댓글 삭제 오류:', err);
+            return res.status(500).json({ error: '댓글 삭제 중 오류가 발생했습니다.' });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: '해당 댓글을 찾을 수 없습니다.' });
+        }
+
+        res.status(200).json({ message: '댓글이 성공적으로 삭제되었습니다.' });
+    });
+}
+
 module.exports = {
     createComment,
     getComments,
+    deleteComment
 };
