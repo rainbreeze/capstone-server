@@ -7,6 +7,8 @@ const createComment = (req, res) => {
     const reviewId = req.params.reviewId;
     const { comment, user_id } = req.body;
 
+    console.log(reviewId);
+
     if (!user_id || !comment) {
         return res.status(400).json({ error: 'user_id 또는 comment가 누락되었습니다.' });
     }

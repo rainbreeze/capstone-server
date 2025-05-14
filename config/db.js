@@ -1,23 +1,26 @@
 // config/db.js
-
 const mysql = require('mysql2');
 
-// MySQL 데이터베이스 연결 설정
-const db = mysql.createConnection({
+const pool = mysql.createPool({
     host: 'maglev.proxy.rlwy.net',
     user: 'root',
     password: 'XKgncJXdXqGqAwJTOaPBAuSLxpZRYGqG',
     database: 'railway',
-    port: 30153
+    port: 30153,
+    waitForConnections: true,
+    connectionLimit: 10,            // 동시에 열 수 있는 커넥션 수
+    queueLimit: 0,
+    multipleStatements: true        // 여러 쿼리 실행 가능하게 함
 });
 
-// 데이터베이스 연결
-db.connect((err) => {
+// (선택) 연결 확인
+pool.getConnection((err, connection) => {
     if (err) {
-        console.error('MySQL 연결 실패:', err);
+        console.error('MySQL 풀 연결 실패:', err);
         return;
     }
-    console.log('MySQL 데이터베이스에 연결되었습니다.');
+    console.log('MySQL 풀 연결 성공');
+    connection.release(); // 풀에 반환
 });
 
-module.exports = db;  // 데이터베이스 연결을 다른 파일에서 사용하기 위해 내보냄
+module.exports = pool;
