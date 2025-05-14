@@ -14,9 +14,9 @@ const hashPassword = (password, callback) => {
 };
 
 // 사용자 등록 함수
-const createUser = (userId, email, hashedPassword, callback) => {
-    const query = 'INSERT INTO users (userId, email, password) VALUES (?, ?, ?)';
-    db.query(query, [userId, email, hashedPassword], (err, result) => {
+const createUser = (userId, email, hashedPassword, userName, callback) => {
+    const query = 'INSERT INTO users (userId, email, password, userName) VALUES (?, ?, ?, ?)';
+    db.query(query, [userId, email, hashedPassword, userName], (err, result) => {
         if (err) {
             return callback(err, null);
         }

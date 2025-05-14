@@ -4,7 +4,7 @@ const registerModel = require('../models/registerModel');  // 회원가입 모�
 
 // 회원가입 API 처리
 const register = (req, res) => {
-    const { userId, email, password } = req.body;
+    const { userId, email, password, userName } = req.body;
 
     // 비밀번호 해싱
     registerModel.hashPassword(password, (err, hashedPassword) => {
@@ -14,7 +14,7 @@ const register = (req, res) => {
         }
 
         // 사용자 등록
-        registerModel.createUser(userId, email, hashedPassword, (err, result) => {
+        registerModel.createUser(userId, email, hashedPassword, userName, (err, result) => {
             if (err) {
                 console.error('회원가입 실패:', err);
                 return res.status(500).json({ error: '회원가입 실패' });
