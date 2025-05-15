@@ -11,6 +11,7 @@ const gameRoutes = require('./routes/gameRoutes');  // 게임 데이터 관련 �
 const playlistRoutes = require('./routes/playlistRoutes');
 const playlistMusicRoutes = require('./routes/playlistMusicRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
+const commentRoutes = require('./routes/commentRoutes')
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/game', gameRoutes);  // '/game' 경로로 들어오는 요청을 gameR
 app.use('/playlist', playlistRoutes);
 app.use('/playlistmusic', playlistMusicRoutes);
 app.use('/reviews', reviewRoutes);
+app.use('/comment', commentRoutes);
 
 // 서버 실행
 const PORT = process.env.PORT || 3001;
