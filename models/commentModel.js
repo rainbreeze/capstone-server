@@ -1,21 +1,16 @@
-// models/commentModel.js
-const db = require('../config/db');// 커넥션 풀 가져오기
+const db = require('../config/db');
 
+// 댓글 생성
 const insertComment = (review_id, user_id, content, callback) => {
     console.log('댓글 생성 모델 실행');
 
     db.getConnection((err, connection) => {
-        if (err) {
-            console.error('DB 커넥션 오류:', err);
-            return callback(err, null);
-        }
+        if (err) return callback(err);
 
-        // 트랜잭션 시작
         connection.beginTransaction(err => {
             if (err) {
                 connection.release();
-                console.error('트랜잭션 시작 실패:', err);
-                return callback(err, null);
+                return callback(err);
             }
 
             const insertQuery = `
@@ -26,9 +21,8 @@ const insertComment = (review_id, user_id, content, callback) => {
             connection.query(insertQuery, [review_id, user_id, content], (err, insertResult) => {
                 if (err) {
                     return connection.rollback(() => {
-                        console.error('댓글 INSERT 실패:', err);
                         connection.release();
-                        return callback(err, null);
+                        callback(err);
                     });
                 }
 
@@ -37,28 +31,24 @@ const insertComment = (review_id, user_id, content, callback) => {
                     WHERE review_id = ?
                 `;
 
-                connection.query(updateQuery, [review_id], (err, updateResult) => {
+                connection.query(updateQuery, [review_id], (err) => {
                     if (err) {
                         return connection.rollback(() => {
-                            console.error('댓글 수 증가 실패:', err);
                             connection.release();
-                            return callback(err, null);
+                            callback(err);
                         });
                     }
 
-                    // 모든 쿼리 성공 → 커밋
                     connection.commit(err => {
                         if (err) {
                             return connection.rollback(() => {
-                                console.error('커밋 실패:', err);
                                 connection.release();
-                                return callback(err, null);
+                                callback(err);
                             });
                         }
 
-                        console.log('댓글 생성 및 댓글 수 증가 완료');
                         connection.release();
-                        callback(null, insertResult); // 결과 반환
+                        callback(null, insertResult);
                     });
                 });
             });
@@ -66,12 +56,7 @@ const insertComment = (review_id, user_id, content, callback) => {
     });
 };
 
-module.exports = {
-    insertComment,
-    // ...기타 메서드들
-};
-
-
+// 댓글 삭제
 const deleteComment = (commentId, callback) => {
     db.getConnection((err, connection) => {
         if (err) return callback(err);
@@ -82,7 +67,6 @@ const deleteComment = (commentId, callback) => {
                 return callback(err);
             }
 
-            // 1. 삭제하려는 댓글의 review_id 조회
             const selectQuery = `
                 SELECT review_id FROM comments WHERE comment_id = ?
             `;
@@ -97,26 +81,24 @@ const deleteComment = (commentId, callback) => {
 
                 const reviewId = results[0].review_id;
 
-                // 2. 댓글 삭제
                 const deleteQuery = `
                     DELETE FROM comments WHERE comment_id = ?
                 `;
 
                 connection.query(deleteQuery, [commentId], (err, deleteResult) => {
-                    if (err || deleteResult.affectedRows === 0) {
+                    if (err) {
                         return connection.rollback(() => {
                             connection.release();
-                            callback(err || new Error('댓글 삭제 실패'));
+                            callback(err);
                         });
                     }
 
-                    // 3. 리뷰 댓글 수 감소
                     const updateQuery = `
                         UPDATE reviews SET comment_count = comment_count - 1
                         WHERE review_id = ?
                     `;
 
-                    connection.query(updateQuery, [reviewId], (err, updateResult) => {
+                    connection.query(updateQuery, [reviewId], (err) => {
                         if (err) {
                             return connection.rollback(() => {
                                 connection.release();
@@ -124,7 +106,6 @@ const deleteComment = (commentId, callback) => {
                             });
                         }
 
-                        // 4. 커밋
                         connection.commit(err => {
                             if (err) {
                                 return connection.rollback(() => {
@@ -143,17 +124,34 @@ const deleteComment = (commentId, callback) => {
     });
 };
 
-// 특정 리뷰의 댓글 전체 조회 (선택적으로 추가 가능)
 const getCommentsByReviewId = (review_id, callback) => {
     const query = `
         SELECT * FROM comments
         WHERE review_id = ?
-        ORDER BY created_at ASC
+        ORDER BY parent_comment_id ASC, created_at ASC
     `;
-
+    
     db.query(query, [review_id], (err, rows) => {
-        if (err) return callback(err, null);
-        callback(null, rows);
+        if (err) return callback(err);
+
+        // 댓글과 답글을 구분하여 구조화
+        const comments = [];
+        const replies = [];
+
+        rows.forEach((row) => {
+            if (row.parent_comment_id === null) {
+                comments.push(row);  // 원본 댓글
+            } else {
+                replies.push(row);  // 답글
+            }
+        });
+
+        // 댓글에 대한 답글을 연결
+        comments.forEach(comment => {
+            comment.replies = replies.filter(reply => reply.parent_comment_id === comment.comment_id);
+        });
+
+        callback(null, comments);  // 댓글과 답글을 구조화한 결과 반환
     });
 };
 
