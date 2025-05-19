@@ -1,4 +1,4 @@
-// routes/mypageRoutes.js
+// routes/mypageRoutes.js 수정.
 
 const express = require('express');
 const router = express.Router();
