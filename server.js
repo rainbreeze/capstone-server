@@ -18,7 +18,7 @@ const mypageRoutes = require('./routes/mypageRoutes');
 
 const app = express();
 
-// 미들웨어 설정
+// 미들웨어 설정 - 잘 모름.
 app.use(cors());
 app.use(bodyParser.json());
 
