@@ -2,9 +2,8 @@
 
 const express = require('express');
 const router = express.Router();
-const { getMyPage } = require('../controllers/mypageController');
-const authenticate = require('../middleware/authenticate');
+const mypageController = require('../controllers/mypageController');  // 컨트롤러 가져오기
 
-router.get('/mypage', authenticate, getMyPage);
+router.get('/:userId', mypageController.getMyPage);
 
 module.exports = router;

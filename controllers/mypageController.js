@@ -4,7 +4,10 @@ const { getUserById } = require('../models/mypageModel');
 
 const getMyPage = async (req, res) => {
     try {
-        const userId = req.user?.id;
+        console.log('마이페이지 컨트롤러 작동 확인.')
+        const userId = req.params.userId;
+        console.log('유저 아이디 확인: ' + userId);
+
         if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
         const user = await getUserById(userId);
