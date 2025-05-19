@@ -13,6 +13,8 @@ const playlistMusicRoutes = require('./routes/playlistMusicRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const commentRoutes = require('./routes/commentRoutes')
 const replyRoutes = require('./routes/replyRoutes')
+const mypageRoutes = require('./routes/mypageRoutes');
+
 
 const app = express();
 
@@ -29,6 +31,7 @@ app.use('/playlistmusic', playlistMusicRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/comment', commentRoutes);
 app.use('/reply', replyRoutes);
+app.use('/api', mypageRoutes);
 
 // 서버 실행
 const PORT = process.env.PORT || 3001;
