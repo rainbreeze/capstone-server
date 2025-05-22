@@ -51,8 +51,12 @@ const saveGameData = async (req, res) => {
         // 추천된 곡들을 클라이언트로 전송
         res.status(200).json({
             message: '게임 데이터 저장 및 음악 추천 성공!',
-            musicRecommendation: recommendedTracks  // 추천된 곡 정보 전송
+            musicRecommendation: recommendedTracks.map(track => ({
+                ...track,
+                genre: genre
+            }))
         });
+
 
     } catch (error) {
         console.error('추천 실패:', error);
