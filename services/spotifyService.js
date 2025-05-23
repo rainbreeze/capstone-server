@@ -35,7 +35,8 @@ const searchSpotifyTracks = async (genre, year, hipster) => {
     const accessToken = await getSpotifyAccessToken();
     const url = 'https://api.spotify.com/v1/search';
 
-    const query = `${genre} ${hipster === 'yes' ? 'hipster' : ''}`;
+    const query = `${genre} ${hipster === 'yes' ? 'hipster' : ''} year:${year}`;
+
     const searchParams = new URLSearchParams({
         q: query,
         type: 'track',
