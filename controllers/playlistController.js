@@ -62,28 +62,29 @@ const getCreationTime = (req, res) => {
     });
 };
 
-const deletePlaylist = (req,res) => {
+const deletePlaylist = (req, res) => {
     const { playlistId } = req.params;
 
-    playlistModel.deletePlaylistMusicByPlaylistId(playlistId, (err,result) => {
+    playlistModel.deletePlaylistMusicByPlaylistId(playlistId, (err, result) => {
         if (err) {
-            console.error('플레이 리스트 음악들 삭제중 오류');
-            return res.status(500).json({message: '서버 오류'});
-        }
-    })
-
-    playlistModel.deletePlaylistById(playlistId, (err,result) => {
-        if (err) {
-            console.error('플레이 리스트 삭제중 오류', err);
-            return res.status(500).json({ message: '서버 오류 발생'});
+            console.error('플레이 리스트 음악들 삭제 중 오류', err);
+            return res.status(500).json({ message: '서버 오류 (음악 삭제 실패)' });
         }
 
-        if (result.affectedRows === 0) {
-            return res.status(404).json({message: '해당 플레이 리스트가 존재하지 않음'});
-        }
+        // 음악 삭제가 끝난 후에, 플레이리스트 삭제 실행
+        playlistModel.deletePlaylistById(playlistId, (err, result) => {
+            if (err) {
+                console.error('플레이 리스트 삭제 중 오류', err);
+                return res.status(500).json({ message: '서버 오류 (플레이리스트 삭제 실패)' });
+            }
 
-        res.json({message: '플레이리스트가 성공적으로 삭제됨.'});
-    })
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: '해당 플레이리스트가 존재하지 않음' });
+            }
+
+            res.json({ message: '플레이리스트가 성공적으로 삭제됨.' });
+        });
+    });
 };
 
 module.exports = {
