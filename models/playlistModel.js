@@ -1,6 +1,23 @@
 // models/playlistModel.js
 const db = require('../config/db');  // DB 연결 설정 파일
 
+const getFullPlaylistData = (userId, callback) => {
+    const query = `
+        SELECT 
+            playlists.playlist_id, 
+            playlists.created_at, 
+            playlist_music.playlist_music_id,
+            playlist_music.music_id,
+            playlist_music.album_image_url,
+            playlist_music.track_name
+        FROM playlists
+        LEFT JOIN playlist_music ON playlists.playlist_id = playlist_music.playlist_id
+        WHERE playlists.user_id = ?
+        ORDER BY playlists.created_at DESC;
+    `;
+    db.execute(query, [userId], callback);
+};
+
 // 새로운 playlist 생성 함수
 const createPlaylist = (userId, genre) => {
     return new Promise((resolve, reject) => {
@@ -49,5 +66,6 @@ module.exports = {
     getPlaylistMusicIdsByPlaylistId,
     getCreationTimeByPlaylistId,
     deletePlaylistById,
-    deletePlaylistMusicByPlaylistId
+    deletePlaylistMusicByPlaylistId,
+    getFullPlaylistData
 };

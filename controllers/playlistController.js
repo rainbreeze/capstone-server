@@ -1,5 +1,42 @@
 const playlistModel = require('../models/playlistModel');
 
+const getFullPlaylist = (req, res) => {
+    const userId = req.params.userId;
+
+    playlistModel.getFullPlaylistData(userId, (err, results) => {
+        if (err) {
+            console.error('전체 플레이리스트 조회 중 오류:', err);
+            return res.status(500).json({ message: '서버 오류' });
+        }
+
+        const playlistsMap = {};
+
+        results.forEach(row => {
+            const playlistId = row.playlist_id;
+
+            if (!playlistsMap[playlistId]) {
+                playlistsMap[playlistId] = {
+                    playlistId: playlistId,
+                    createdAt: row.created_at,
+                    musics: []
+                };
+            }
+
+            if (row.music_id) {
+                playlistsMap[playlistId].musics.push({
+                    playlistMusicId: row.playlist_music_id,
+                    musicId: row.music_id,
+                    albumImageUrl: row.album_image_url,
+                    trackName: row.track_name
+                });
+            }
+        });
+
+        const playlists = Object.values(playlistsMap);
+        res.json(playlists);
+    });
+};
+
 // 플레이리스트 ID 조회
 const getPlaylistIds = (req, res) => {
     const userId = req.params.userId;
@@ -91,5 +128,6 @@ module.exports = {
     getPlaylistIds,
     getPlaylistMusicIds,
     getCreationTime,
-    deletePlaylist
+    deletePlaylist,
+    getFullPlaylist
 };

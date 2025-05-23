@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const playlistController = require('../controllers/playlistController');
 
+router.get('/full/:userId', playlistController.getFullPlaylist);
+
 // 플레이리스트 ID 조회
 router.get('/:userId', playlistController.getPlaylistIds);
 
