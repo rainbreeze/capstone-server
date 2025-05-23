@@ -24,6 +24,12 @@ const getSpotifyAccessToken = async () => {
     }
 };
 
+// 배열에서 랜덤으로 n개 뽑는 함수
+const getRandomItems = (arr, n) => {
+    const shuffled = arr.slice().sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, n);
+};
+
 // Spotify Search API를 호출하여 음악을 검색하는 함수
 const searchSpotifyTracks = async (genre, year, hipster) => {
     const accessToken = await getSpotifyAccessToken();
@@ -33,8 +39,7 @@ const searchSpotifyTracks = async (genre, year, hipster) => {
     const searchParams = new URLSearchParams({
         q: query,
         type: 'track',
-        limit: 5,
-        year: year,
+        limit: 15, // 최대 10개 요청
     });
 
     const headers = {
@@ -43,8 +48,10 @@ const searchSpotifyTracks = async (genre, year, hipster) => {
 
     try {
         const response = await axios.get(`${url}?${searchParams.toString()}`, { headers });
+        const allTracks = response.data.tracks.items;
+        const randomTracks = getRandomItems(allTracks, Math.min(5, allTracks.length)); // 랜덤으로 5개 선택
 
-        return response.data.tracks.items;  // 검색된 트랙 목록 반환
+        return randomTracks;
     } catch (error) {
         console.error('Spotify 검색 실패:', error);
         throw new Error('Spotify 검색 실패');
