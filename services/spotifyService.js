@@ -31,11 +31,11 @@ const getRandomItems = (arr, n) => {
 };
 
 // Spotify Search API를 호출하여 음악을 검색하는 함수
-const searchSpotifyTracks = async (genre, year, hipster) => {
+const searchSpotifyTracks = async (genre, year) => {
     const accessToken = await getSpotifyAccessToken();
     const url = 'https://api.spotify.com/v1/search';
 
-    const query = `${genre} ${hipster === 'yes' ? 'hipster' : ''} year:${year}`;
+    const query = `${genre} year:${year}`;
 
     const searchParams = new URLSearchParams({
         q: query,

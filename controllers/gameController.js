@@ -6,22 +6,22 @@ const spotifyService = require('../services/spotifyService');  // Spotify 서비
 
 // 게임 데이터 저장 API 처리
 const saveGameData = async (req, res) => {
-    const { userId, score, genre, year, hipster } = req.body;
+    const { userId, score, genre, year } = req.body;
 
     // score가 빈 값일 경우 처리 (NaN이 되지 않도록)
     const parsedScore = score ? parseInt(score, 10) : null;
 
     // 1. 게임 데이터 저장
     try {
-        const gameResult = await gameModel.saveGameData(userId, parsedScore, genre, year, hipster);
+        const gameResult = await gameModel.saveGameData(userId, parsedScore, genre, year);
         console.log('게임 데이터 저장 성공:', gameResult);
 
         // 2. 플레이리스트 생성
         const playlist = await playlistModel.createPlaylist(userId, genre);
         console.log('플레이리스트 생성 성공:', playlist);
 
-        // 3. 음악 추천을 받기 위한 API 호출
-        const recommendedTracks = await spotifyService.searchSpotifyTracks(genre, year, hipster);
+        // 3. 음악 추천을 받기 위한 API 호출s
+        const recommendedTracks = await spotifyService.searchSpotifyTracks(genre, year);
 
         // 4. 추천된 곡들을 플레이리스트에 추가
         for (const track of recommendedTracks) {
