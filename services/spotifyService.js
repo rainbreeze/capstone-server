@@ -30,10 +30,24 @@ const getRandomItems = (arr, n) => {
     return shuffled.slice(0, n);
 };
 
+//limit 함수
+const getLimitByScore = (score) =>{
+    if (score < 1000) return 1;
+    else if (score < 2000) return 2;
+    else if (score < 3000) return 3;
+    else if (score < 4000) return 4;
+    else if (score < 5000) return 5;
+    else if (score < 6000) return 6;
+    else return 7;
+}
+
 // Spotify Search API를 호출하여 음악을 검색하는 함수
-const searchSpotifyTracks = async (genre, year) => {
+const searchSpotifyTracks = async (parsedScore, genre, year) => {
     const accessToken = await getSpotifyAccessToken();
     const url = 'https://api.spotify.com/v1/search';
+    const score = parsedScore;
+    const limit = getLimitByScore(score);
+    console.log(limit);
 
     const query = `${genre} year:${year}`;
 
@@ -50,7 +64,7 @@ const searchSpotifyTracks = async (genre, year) => {
     try {
         const response = await axios.get(`${url}?${searchParams.toString()}`, { headers });
         const allTracks = response.data.tracks.items;
-        const randomTracks = getRandomItems(allTracks, Math.min(5, allTracks.length)); // 랜덤으로 5개 선택
+        const randomTracks = getRandomItems(allTracks, Math.min(limit, allTracks.length)); // 랜덤으로 5개 선택
 
         return randomTracks;
     } catch (error) {

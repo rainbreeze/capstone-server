@@ -21,7 +21,7 @@ const saveGameData = async (req, res) => {
         console.log('플레이리스트 생성 성공:', playlist);
 
         // 3. 음악 추천을 받기 위한 API 호출s
-        const recommendedTracks = await spotifyService.searchSpotifyTracks(genre, year);
+        const recommendedTracks = await spotifyService.searchSpotifyTracks(parsedScore, genre, year);
 
         // 4. 추천된 곡들을 플레이리스트에 추가
         for (const track of recommendedTracks) {
