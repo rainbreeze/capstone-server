@@ -2,13 +2,13 @@ const reviewModel = require('../models/reviewModel');
 
 const createReview = (req, res) => {
     console.log('리뷰 생성 컨트롤러 실행행')
-    const { user_id, playlist_music_id, album_image_url, genre, rating, comment } = req.body;
-    console.log(user_id, playlist_music_id, album_image_url, genre, rating, comment);
+    const { user_id, playlist_music_id, album_image_url, genre, rating, comment, playlist_music_name } = req.body;
+    console.log(user_id, playlist_music_id, album_image_url, genre, rating, comment, playlist_music_name);
     if (!user_id || !playlist_music_id || !rating) {
         return res.status(400).json({ message: '필수 항목이 누락되었습니다.' });
     }
 
-    reviewModel.saveReview(user_id, playlist_music_id, album_image_url, genre, rating, comment, (err, result) => {
+    reviewModel.saveReview(user_id, playlist_music_id, album_image_url, genre, rating, comment, playlist_music_name, (err, result) => {
         if (err) {
             console.error('리뷰 저장 오류:', err.message);
             return res.status(500).json({ message: '서버 오류' });
