@@ -28,7 +28,9 @@ const getFullPlaylist = (req, res) => {
                     musicId: row.music_id,
                     albumImageUrl: row.album_image_url,
                     trackName: row.track_name,
-                    genre: row.genre  // ✅ 추가된 부분
+                    genre: row.genre,
+                    artistName: row.artist_names,
+                    spotifyUrl: row.spotify_url // ✅ 추가된 부분
                 });
             }
         });

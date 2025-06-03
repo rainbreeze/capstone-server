@@ -10,7 +10,9 @@ const getFullPlaylistData = (userId, callback) => {
             playlist_music.music_id,
             playlist_music.album_image_url,
             playlist_music.track_name,
-            playlist_music.genre
+            playlist_music.genre,
+            playlist_music.artist_names,
+            playlist_music.spotify_url
         FROM playlists
         LEFT JOIN playlist_music ON playlists.playlist_id = playlist_music.playlist_id
         WHERE playlists.user_id = ?
