@@ -1,19 +1,11 @@
 const db = require('../config/db');
 
-// 리뷰 저장
-const saveReview = async (user_id, playlist_music_id, album_image_url, genre, rating, comment) => {
-    console.log('리뷰 생성 모델 실행');
+const saveReview = (user_id, playlist_music_id, album_image_url, genre, rating, comment, callback) => {
     const query = `
         INSERT INTO reviews (user_id, playlist_music_id, album_image_url, genre, rating, comment)
         VALUES (?, ?, ?, ?, ?, ?)
     `;
-    try {
-        const result = await db.execute(query, [user_id, playlist_music_id, album_image_url, genre, rating, comment]);
-        return result;
-    } catch (error) {
-        console.error('쿼리 실행 중 에러 발생:', error);
-        throw error;
-    }
+    db.query(query, [user_id, playlist_music_id, album_image_url, genre, rating, comment], callback);
 };
 
 // 특정 음악에 대한 리뷰 조회
