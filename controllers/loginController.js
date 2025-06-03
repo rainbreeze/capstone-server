@@ -36,8 +36,15 @@ const login = (req, res) => {
                 return res.status(401).json({ error: '아이디 또는 비밀번호가 잘못되었습니다.' });
             }
 
-            // JWT 토큰 생성
-            const token = jwt.sign({ userId: user.userId }, JWT_SECRET, { expiresIn: '1h' });
+            const token = jwt.sign(
+                {
+                    userId: user.userId,
+                    userName: user.userName,
+                    profileImage: user.profileImage
+                },
+                JWT_SECRET,
+                { expiresIn: '1h' }
+            );
 
             res.status(200).json({ message: '로그인 성공!', token });
         });
