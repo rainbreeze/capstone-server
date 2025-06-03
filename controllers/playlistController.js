@@ -27,7 +27,8 @@ const getFullPlaylist = (req, res) => {
                     playlistMusicId: row.playlist_music_id,
                     musicId: row.music_id,
                     albumImageUrl: row.album_image_url,
-                    trackName: row.track_name
+                    trackName: row.track_name,
+                    genre: row.genre  // ✅ 추가된 부분
                 });
             }
         });
