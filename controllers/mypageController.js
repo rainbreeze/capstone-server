@@ -1,16 +1,20 @@
-// controllers/mypageController.js
+const path = require('path');
+const db = require('../config/db');
 
-const { getUserById } = require('../models/mypageModel');
-
+// 기존 getMyPage 유지
 const getMyPage = async (req, res) => {
     try {
-        console.log('마이페이지 컨트롤러 작동 확인.')
         const userId = req.params.userId;
-        console.log('유저 아이디 확인: ' + userId);
-
         if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
-        const user = await getUserById(userId);
+        const [user] = await new Promise((resolve, reject) => {
+            const query = 'SELECT userName, userId, email, createdAt, profileImage FROM users WHERE userId = ?';
+            db.query(query, [userId], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        });
+
         if (!user) return res.status(404).json({ message: 'User not found' });
 
         res.json(user);
@@ -20,4 +24,36 @@ const getMyPage = async (req, res) => {
     }
 };
 
-module.exports = { getMyPage };
+// 프로필 이미지 업로드
+const uploadProfileImage = (req, res) => {
+    const userId = req.params.userId;
+    const file = req.file;
+
+    if (!file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    const imageUrl = file.filename;
+
+    const query = 'UPDATE users SET profileImage = ? WHERE userId = ?';
+    db.query(query, [imageUrl, userId], (err) => {
+        if (err) return res.status(500).json({ message: 'Database error', error: err });
+        res.status(200).json({ message: 'Upload success', imageUrl });
+    });
+};
+
+// 프로필 이미지 조회
+const getProfileImage = (req, res) => {
+    const userId = req.params.userId;
+
+    const query = 'SELECT profileImage FROM users WHERE userId = ?';
+    db.query(query, [userId], (err, results) => {
+        if (err) return res.status(500).json({ message: 'Database error', error: err });
+        const imageUrl = results[0]?.profileImage || null;
+        if (!imageUrl) return res.status(404).json({ message: 'No profile image found' });
+
+        res.status(200).json({ imageUrl });
+    });
+};
+
+module.exports = { getMyPage, uploadProfileImage, getProfileImage };
