@@ -32,6 +32,7 @@ const getReviews = async (req, res) => {
 
 // 전체 리뷰 조회
 const getAllReviews = (req, res) => {
+    console.log('리뷰 컨트롤러 조회 실행.');
     reviewModel.getAllReviews((err, reviews) => {
         if (err) {
             console.error('전체 리뷰 조회 오류:', err.message);

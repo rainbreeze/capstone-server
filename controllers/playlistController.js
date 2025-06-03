@@ -2,7 +2,7 @@ const playlistModel = require('../models/playlistModel');
 
 const getFullPlaylist = (req, res) => {
     const userId = req.params.userId;
-
+    console.log('플레이리스트 조회');
     playlistModel.getFullPlaylistData(userId, (err, results) => {
         if (err) {
             console.error('전체 플레이리스트 조회 중 오류:', err);
