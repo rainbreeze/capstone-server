@@ -3,7 +3,6 @@ const reviewModel = require('../models/reviewModel');
 const createReview = (req, res) => {
     console.log('리뷰 생성 컨트롤러 실행행')
     const { user_id, playlist_music_id, album_image_url, genre, rating, comment, playlist_music_name, user_name, user_profile } = req.body;
-    console.log(user_id, playlist_music_id, album_image_url, genre, rating, comment, playlist_music_name, user_name, user_profile);
     if (!user_id || !playlist_music_id || !rating) {
         return res.status(400).json({ message: '필수 항목이 누락되었습니다.' });
     }

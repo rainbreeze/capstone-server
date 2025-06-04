@@ -35,7 +35,6 @@ const getComments = (req, res) => {
             console.error('댓글 조회 오류:', err);
             return res.status(500).json({ error: '댓글 목록 조회 실패' });
         }
-        console.log(comments);
         res.status(200).json(comments);
     });
 };
