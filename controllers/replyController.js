@@ -6,13 +6,13 @@ const createReply = (req, res) => {
     console.log('답글 생성 컨트롤러 실행');
 
     const reviewId = req.params.reviewId;
-    const { comment, user_id, parent_comment_id } = req.body;
+    const { comment, user_id, parent_comment_id, user_name, user_profile } = req.body;
 
     if (!user_id || !comment || !parent_comment_id) {
         return res.status(400).json({ error: 'user_id, comment, parent_comment_id가 필요합니다.' });
     }
 
-    replyModel.insertReply(reviewId, user_id, comment, parent_comment_id, (err, result) => {
+    replyModel.insertReply(reviewId, user_id, comment, parent_comment_id, user_name, user_profile, (err, result) => {
         if (err) {
             console.error('답글 생성 오류:', err);
             return res.status(500).json({ error: '답글 등록 중 오류가 발생했습니다.' });

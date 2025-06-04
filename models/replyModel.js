@@ -1,7 +1,7 @@
 const db = require('../config/db');
 
 // 답글 생성
-const insertReply = (review_id, user_id, content, parent_comment_id, callback) => {
+const insertReply = (review_id, user_id, content, parent_comment_id, user_name, user_profile, callback) => {
     console.log('답글 생성 모델 실행');
 
     db.getConnection((err, connection) => {
@@ -14,11 +14,11 @@ const insertReply = (review_id, user_id, content, parent_comment_id, callback) =
             }
 
             const insertQuery = `
-                INSERT INTO comments (review_id, user_id, content, parent_comment_id)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO comments (review_id, user_id, content, parent_comment_id, user_name, user_profile)
+                VALUES (?, ?, ?, ?, ?, ?)
             `;
 
-            connection.query(insertQuery, [review_id, user_id, content, parent_comment_id], (err, insertResult) => {
+            connection.query(insertQuery, [review_id, user_id, content, parent_comment_id, user_name, user_profile], (err, insertResult) => {
                 if (err) {
                     return connection.rollback(() => {
                         connection.release();
