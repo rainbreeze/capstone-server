@@ -1,7 +1,7 @@
 const db = require('../config/db');
 
 // 댓글 생성
-const insertComment = (review_id, user_id, content, callback) => {
+const insertComment = (review_id, user_id, content, user_name, user_profile, callback) => {
     console.log('댓글 생성 모델 실행');
 
     db.getConnection((err, connection) => {
@@ -14,11 +14,11 @@ const insertComment = (review_id, user_id, content, callback) => {
             }
 
             const insertQuery = `
-                INSERT INTO comments (review_id, user_id, content)
-                VALUES (?, ?, ?)
+                INSERT INTO comments (review_id, user_id, content, user_name, user_profile)
+                VALUES (?, ?, ?, ?, ?)
             `;
 
-            connection.query(insertQuery, [review_id, user_id, content], (err, insertResult) => {
+            connection.query(insertQuery, [review_id, user_id, content, user_name, user_profile], (err, insertResult) => {
                 if (err) {
                     return connection.rollback(() => {
                         connection.release();

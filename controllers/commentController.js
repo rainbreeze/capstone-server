@@ -6,13 +6,13 @@ const createComment = (req, res) => {
     console.log('댓글 생성 컨트롤러 실행');
 
     const reviewId = req.params.reviewId;
-    const { comment, user_id } = req.body;
+    const { comment, user_id, user_name, user_profile } = req.body;
 
     if (!user_id || !comment) {
         return res.status(400).json({ error: 'user_id 또는 comment가 누락되었습니다.' });
     }
 
-    commentModel.insertComment(reviewId, user_id, comment, (err, result) => {
+    commentModel.insertComment(reviewId, user_id, comment, user_name, user_profile, (err, result) => {
         if (err) {
             console.error('댓글 생성 오류:', err);
             return res.status(500).json({ error: '댓글 등록 중 오류가 발생했습니다.' });
