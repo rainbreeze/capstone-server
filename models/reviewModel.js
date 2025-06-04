@@ -3,7 +3,7 @@ const db = require('../config/db');
 const saveReview = (user_id, playlist_music_id, album_image_url, genre, rating, comment,playlist_music_name, user_name, user_profile, callback) => {
     const query = `
         INSERT INTO reviews (user_id, playlist_music_id, album_image_url, genre, rating, comment, playlist_music_name, user_name, user_profile)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     db.query(query, [user_id, playlist_music_id, album_image_url, genre, rating, comment, playlist_music_name, user_name, user_profile], callback);
 };
