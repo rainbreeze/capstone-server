@@ -1,11 +1,11 @@
 const db = require('../config/db');
 
-const saveReview = (user_id, playlist_music_id, album_image_url, genre, rating, comment,playlist_music_name, user_name, callback) => {
+const saveReview = (user_id, playlist_music_id, album_image_url, genre, rating, comment,playlist_music_name, user_name, user_profile, callback) => {
     const query = `
-        INSERT INTO reviews (user_id, playlist_music_id, album_image_url, genre, rating, comment, playlist_music_name, user_name)
+        INSERT INTO reviews (user_id, playlist_music_id, album_image_url, genre, rating, comment, playlist_music_name, user_name, user_profile)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    db.query(query, [user_id, playlist_music_id, album_image_url, genre, rating, comment, playlist_music_name, user_name], callback);
+    db.query(query, [user_id, playlist_music_id, album_image_url, genre, rating, comment, playlist_music_name, user_name, user_profile], callback);
 };
 
 // 특정 음악에 대한 리뷰 조회
