@@ -1,4 +1,4 @@
-# Project Name
+# BETOPHIA DATABASE SERVER
 
 > Node.js + Express 기반 RESTful API 서버  
 > JWT 인증, 프로필 이미지 업로드, 플레이리스트, 리뷰, 댓글 등 기능 포함
