@@ -119,11 +119,32 @@ PORT=3001
 
 ## 주요 API 정리
 
-| 메서드    | 경로                       | 설명       |
-| ------ | ------------------------ | -------- |
-| POST   | `/api/:reviewId/comment` | 댓글 등록    |
-| GET    | `/api/:reviewId/comment` | 댓글 목록 조회 |
-| DELETE | `/api/:commentId`        | 댓글 삭제    |
+| 기능          | 메서드 | 경로                                 | 설명                         |
+|---------------|--------|------------------------------------|------------------------------|
+| 댓글 (Comment) | POST   | `/api/:reviewId/comment`            | 댓글 등록                    |
+|               | GET    | `/api/:reviewId/comment`            | 댓글 목록 조회               |
+|               | DELETE | `/api/:commentId`                   | 댓글 삭제                   |
+| 게임 데이터 (Game) | POST   | `/api/savegamedata`                | 게임 데이터 저장             |
+| 로그인 (Login) | POST   | `/api/`                            | 로그인                      |
+| 마이페이지 (MyPage) | GET    | `/api/:userId`                    | 마이페이지 정보 조회         |
+|               | POST   | `/api/:userId/profile-image`       | 프로필 이미지 업로드        |
+|               | GET    | `/api/:userId/profile-image`       | 프로필 이미지 조회          |
+| 플레이리스트 음악 (PlaylistMusic) | GET    | `/api/image/:playlistMusicId`    | 음악 ID로 이미지 URL 조회    |
+|               | GET    | `/api/genre/:playlistMusicId`      | 음악 ID로 장르 조회         |
+| 플레이리스트 (Playlist) | GET    | `/api/full/:userId`               | 전체 플레이리스트 조회       |
+|               | GET    | `/api/:userId`                     | 플레이리스트 ID 조회         |
+|               | GET    | `/api/playlist/:playlistId/created_at` | 플레이리스트 생성일 조회 |
+|               | GET    | `/api/playlistmusic/:playlistId`  | 플레이리스트 음악 ID 조회   |
+|               | DELETE | `/api/:playlistId`                 | 플레이리스트 삭제            |
+| 회원가입 (Register) | POST   | `/api/`                          | 회원가입                   |
+| 답글 (Reply)  | POST   | `/api/:reviewId/reply`              | 답글 등록                   |
+|               | GET    | `/api/:parentId/replies`            | 특정 댓글의 답글 조회        |
+| 리뷰 (Review) | POST   | `/api/`                            | 리뷰 등록                   |
+|               | GET    | `/api/:playlistMusicId`             | 특정 음악 리뷰 목록 조회    |
+|               | GET    | `/api/`                            | 전체 리뷰 조회 (관리자용)   |
+|               | POST   | `/api/:reviewId/like`               | 리뷰 좋아요 (like +1)       |
+|               | POST   | `/api/:reviewId/unLike`             | 리뷰 좋아요 해제 (like -1)  |
+
 
 
 ## 라이선스
