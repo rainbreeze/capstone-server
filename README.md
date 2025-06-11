@@ -38,50 +38,48 @@ Model, Controller, Route를 분리하여 유지보수와 확장성을 높였습�
 
 ## 폴더 구조
 
-📦src
- ┣ 📂components
- ┃ ┣ 📂common
- ┃ ┃ ┣ 📜Footer.tsx
- ┃ ┃ ┗ 📜Header.js
- ┃ ┣ 📂gamepage
- ┃ ┃ ┣ 📜ChoiceScene.js
- ┃ ┃ ┣ 📜GameScene.js
- ┃ ┃ ┣ 📜IntroScene.js
- ┃ ┃ ┗ 📜MainScene.js
- ┃ ┣ 📂homepage
- ┃ ┃ ┣ 📜ContainerWrapper.js
- ┃ ┃ ┣ 📜GameContainer.js
- ┃ ┃ ┣ 📜HomePage.js
- ┃ ┃ ┣ 📜ImageSlider.js
- ┃ ┃ ┣ 📜InfoCardContainer.js
- ┃ ┃ ┣ 📜LiveRankingContainer.js
- ┃ ┃ ┣ 📜Middle.js
- ┃ ┃ ┗ 📜StartGameContainer.js
- ┃ ┣ 📂loginpage
- ┃ ┃ ┗ 📜LoginPage.js
- ┃ ┣ 📂mypage
- ┃ ┃ ┣ 📜MyPage.js
- ┃ ┃ ┗ 📜ProfileImageUploader.js
- ┃ ┣ 📂playlistpage
- ┃ ┃ ┣ 📜playlistDetailModal.js
- ┃ ┃ ┣ 📜PlayListPage.js
- ┃ ┃ ┗ 📜playlistReviewModal.js
- ┃ ┣ 📂registerpage
- ┃ ┃ ┗ 📜RegisterPage.js
- ┃ ┣ 📂reviewpage
- ┃ ┃ ┣ 📜ReviewCommentModal.js
- ┃ ┃ ┗ 📜ViewReviewPage.js
- ┃ ┗ 📂testpage
- ┃ ┃ ┣ 📜TestPage.js
- ┃ ┃ ┗ 📜TestResultPage.js
- ┣ 📜App.css
- ┣ 📜App.js
- ┣ 📜App.test.js
- ┣ 📜index.css
- ┣ 📜index.js
- ┣ 📜logo.svg
- ┣ 📜reportWebVitals.js
- ┗ 📜setupTests.js
+```plaintext
+.idea/
+config/
+  └── db.js
+controllers/
+  ├── commentController.js
+  ├── gameController.js
+  ├── loginController.js
+  ├── mypageController.js
+  ├── playlistController.js
+  ├── playlistMusicController.js
+  ├── registerController.js
+  ├── replyController.js
+  └── reviewController.js
+models/
+  ├── commentModel.js
+  ├── gameModel.js
+  ├── loginModel.js
+  ├── mypageModel.js
+  ├── playlistModel.js
+  ├── playlistMusicModel.js
+  ├── registerModel.js
+  ├── replyModel.js
+  └── reviewModel.js
+node_modules/
+routes/
+  ├── commentRoutes.js
+  ├── gameRoutes.js
+  ├── loginRoutes.js
+  ├── mypageRoutes.js
+  ├── playlistMusicRoutes.js
+  ├── playlistRoutes.js
+  ├── registerRoutes.js
+  ├── replyRoutes.js
+  └── reviewRoutes.js
+services/
+  └── spotifyService.js
+uploads/
+README.md
+package-lock.json
+package.json
+server.js
 
 ## 설치 및 실행
 
