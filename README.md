@@ -80,20 +80,22 @@ README.md
 package-lock.json
 package.json
 server.js
+```
 
 ## 설치 및 실행
 
 ```bash
-# 1. 레포지토리 클론
-git clone https://github.com/your-username/capstone-server.git
-cd capstone-server
+# 1. 저장소 클론
+git clone <레포지토리 URL>
+cd <프로젝트 폴더>
 
 # 2. 의존성 설치
 npm install
 
-# 3. 환경 변수 설정 (.env 파일 생성)
-cp .env.example .env
-
 # 4. 서버 실행
 npm start
+# 또는 개발 중 자동 리로드
+npm run dev
+```
+
 
