@@ -99,10 +99,7 @@ npm run dev
 
 ## 환경 변수
 
-프로젝트 실행에 필요한 환경 변수는 `.env` 파일에 설정합니다.  
-예시 `.env` 파일 내용은 다음과 같습니다:
-
-```env
+```
 # 데이터베이스 접속 정보
 DB_HOST=maglev.proxy.rlwy.net
 DB_USER=root
