@@ -38,3 +38,64 @@ Model, Controller, Route를 분리하여 유지보수와 확장성을 높였습�
 
 ## 폴더 구조
 
+📦src
+ ┣ 📂components
+ ┃ ┣ 📂common
+ ┃ ┃ ┣ 📜Footer.tsx
+ ┃ ┃ ┗ 📜Header.js
+ ┃ ┣ 📂gamepage
+ ┃ ┃ ┣ 📜ChoiceScene.js
+ ┃ ┃ ┣ 📜GameScene.js
+ ┃ ┃ ┣ 📜IntroScene.js
+ ┃ ┃ ┗ 📜MainScene.js
+ ┃ ┣ 📂homepage
+ ┃ ┃ ┣ 📜ContainerWrapper.js
+ ┃ ┃ ┣ 📜GameContainer.js
+ ┃ ┃ ┣ 📜HomePage.js
+ ┃ ┃ ┣ 📜ImageSlider.js
+ ┃ ┃ ┣ 📜InfoCardContainer.js
+ ┃ ┃ ┣ 📜LiveRankingContainer.js
+ ┃ ┃ ┣ 📜Middle.js
+ ┃ ┃ ┗ 📜StartGameContainer.js
+ ┃ ┣ 📂loginpage
+ ┃ ┃ ┗ 📜LoginPage.js
+ ┃ ┣ 📂mypage
+ ┃ ┃ ┣ 📜MyPage.js
+ ┃ ┃ ┗ 📜ProfileImageUploader.js
+ ┃ ┣ 📂playlistpage
+ ┃ ┃ ┣ 📜playlistDetailModal.js
+ ┃ ┃ ┣ 📜PlayListPage.js
+ ┃ ┃ ┗ 📜playlistReviewModal.js
+ ┃ ┣ 📂registerpage
+ ┃ ┃ ┗ 📜RegisterPage.js
+ ┃ ┣ 📂reviewpage
+ ┃ ┃ ┣ 📜ReviewCommentModal.js
+ ┃ ┃ ┗ 📜ViewReviewPage.js
+ ┃ ┗ 📂testpage
+ ┃ ┃ ┣ 📜TestPage.js
+ ┃ ┃ ┗ 📜TestResultPage.js
+ ┣ 📜App.css
+ ┣ 📜App.js
+ ┣ 📜App.test.js
+ ┣ 📜index.css
+ ┣ 📜index.js
+ ┣ 📜logo.svg
+ ┣ 📜reportWebVitals.js
+ ┗ 📜setupTests.js
+
+## 설치 및 실행
+
+```bash
+# 1. 레포지토리 클론
+git clone https://github.com/your-username/capstone-server.git
+cd capstone-server
+
+# 2. 의존성 설치
+npm install
+
+# 3. 환경 변수 설정 (.env 파일 생성)
+cp .env.example .env
+
+# 4. 서버 실행
+npm start
+
