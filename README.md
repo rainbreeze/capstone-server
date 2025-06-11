@@ -97,4 +97,101 @@ npm start
 npm run dev
 ```
 
+## 환경 변수
+
+프로젝트 실행에 필요한 환경 변수는 `.env` 파일에 설정합니다.  
+예시 `.env` 파일 내용은 다음과 같습니다:
+
+```env
+# 데이터베이스 접속 정보
+DB_HOST=maglev.proxy.rlwy.net
+DB_USER=root
+DB_PASSWORD='XKgncJXdXqGqAwJTOaPBAuSLxpZRYGqG',
+DB_NAME=railway
+DB_PORT=30153
+
+# JWT 시크릿 키
+JWT_SECRET=your_jwt_secret_key
+
+# 서버 포트 (선택 사항)
+PORT=3001
+```
+
+## 주요 API 정리
+API 주요 기능
+댓글 (Comment)
+메서드	경로	설명
+POST	/api/:reviewId/comment	댓글 등록
+GET	/api/:reviewId/comment	댓글 목록 조회
+DELETE	/api/:commentId	댓글 삭제
+
+게임 데이터 (Game)
+메서드	경로	설명
+POST	/api/savegamedata	게임 데이터 저장
+
+로그인 (Login)
+메서드	경로	설명
+POST	/api/	로그인
+
+마이페이지 (MyPage)
+메서드	경로	설명
+GET	/api/:userId	마이페이지 정보 조회
+POST	/api/:userId/profile-image	프로필 이미지 업로드
+GET	/api/:userId/profile-image	프로필 이미지 조회
+
+플레이리스트 음악 (PlaylistMusic)
+메서드	경로	설명
+GET	/api/image/:playlistMusicId	음악 ID로 이미지 URL 조회
+GET	/api/genre/:playlistMusicId	음악 ID로 장르 조회
+
+플레이리스트 (Playlist)
+메서드	경로	설명
+GET	/api/full/:userId	전체 플레이리스트 조회
+GET	/api/:userId	플레이리스트 ID 조회
+GET	/api/playlist/:playlistId/created_at	플레이리스트 생성일 조회
+GET	/api/playlistmusic/:playlistId	플레이리스트 음악 ID 조회
+DELETE	/api/:playlistId	플레이리스트 삭제
+
+회원가입 (Register)
+메서드	경로	설명
+POST	/api/	회원가입
+
+답글 (Reply)
+메서드	경로	설명
+POST	/api/:reviewId/reply	답글 등록
+GET	/api/:parentId/replies	특정 댓글의 답글 조회
+
+리뷰 (Review)
+메서드	경로	설명
+POST	/api/	리뷰 등록
+GET	/api/:playlistMusicId	특정 음악 리뷰 목록 조회
+GET	/api/	전체 리뷰 조회 (관리자용)
+POST	/api/:reviewId/like	리뷰 좋아요 (like +1)
+POST	/api/:reviewId/unLike	리뷰 좋아요 해제 (like -1)
+
+## 라이선스
+
+MIT License
+
+Copyright (c) 2025 CAPSTONE GROUP 8
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+자세한 내용은 프로젝트 루트의 `LICENSE` 파일을 참고하세요.
 
