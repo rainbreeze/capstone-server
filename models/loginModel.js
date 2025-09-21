@@ -1,30 +1,39 @@
-// models/loginModel.js
+const pool = require('../config/db');
+const bcrypt = require('bcryptjs'); // bcryptjs를 import 합니다.
 
-const bcrypt = require('bcryptjs');
-const db = require('../config/db');  // DB 연결
-
-// 사용자 정보 조회 함수
 const getUserById = (userId, callback) => {
-    const query = 'SELECT * FROM users WHERE userId = ?';
-    db.query(query, [userId], (err, result) => {
-        if (err) {
-            return callback(err, null);
-        }
-        callback(null, result);
+    const sql = 'SELECT * FROM users WHERE userId = ?';
+    pool.query(sql, [userId], callback);
+};
+
+const comparePassword = (inputPassword, hashedPassword, callback) => {
+    bcrypt.compare(inputPassword, hashedPassword, (err, isMatch) => {
+        if (err) return callback(err);
+        callback(null, isMatch);
     });
 };
 
-// 비밀번호 비교 함수
-const comparePassword = (enteredPassword, storedPassword, callback) => {
-    bcrypt.compare(enteredPassword, storedPassword, (err, isMatch) => {
+// 이 아래에 카카오 로그인 관련 함수를 추가합니다.
+
+const getKakaoUserById = (kakaoId, callback) => {
+    const sql = 'SELECT * FROM users WHERE provider = "kakao" AND userId = ?';
+    pool.query(sql, [`kakao_${kakaoId}`], (err, results) => {
         if (err) {
             return callback(err, null);
         }
-        callback(null, isMatch);
+        callback(null, results.length > 0 ? results[0] : null);
     });
+};
+
+const registerKakaoUser = (user, callback) => {
+    const { userId, userName, profileImage, provider } = user;
+    const sql = 'INSERT INTO users (userId, userName, profileImage, provider) VALUES (?, ?, ?, ?)';
+    pool.query(sql, [userId, userName, profileImage, provider], callback);
 };
 
 module.exports = {
     getUserById,
     comparePassword,
+    getKakaoUserById,
+    registerKakaoUser,
 };

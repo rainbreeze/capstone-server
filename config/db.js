@@ -8,9 +8,9 @@ const pool = mysql.createPool({
     database: 'railway',
     port: 30153,
     waitForConnections: true,
-    connectionLimit: 10,            // 동시에 열 수 있는 커넥션 수
+    connectionLimit: 10,
     queueLimit: 0,
-    multipleStatements: true        // 여러 쿼리 실행 가능하게 함
+    multipleStatements: true
 });
 
 // (선택) 연결 확인
@@ -20,7 +20,7 @@ pool.getConnection((err, connection) => {
         return;
     }
     console.log('MySQL 풀 연결 성공');
-    connection.release(); // 풀에 반환
+    connection.release();
 });
 
 module.exports = pool;
