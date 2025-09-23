@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');  // ⬅️ 이미지 정적 경로를 위해 필요
-const db = require('./config/db');  // config/db.js에서 연결한 데이터베이스를 가져옴
+const db = require('./config/db');
 
 // 필요한 라우터 불러오기
 const registerRoutes = require('./routes/registerRoutes');
@@ -20,6 +20,10 @@ const app = express();
 // ✅ 정적 폴더 설정 - 업로드한 이미지 접근 허용
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// 클라이언트 정적 파일 제공
+// React 프로젝트의 빌드 파일을 제공하기 위한 설정입니다.
+app.use(express.static(path.join(__dirname, '..', 'capstone-client', 'build')));
+
 // 미들웨어 설정
 app.use(cors());
 app.use(bodyParser.json());
@@ -33,7 +37,13 @@ app.use('/playlistmusic', playlistMusicRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/comment', commentRoutes);
 app.use('/reply', replyRoutes);
-app.use('/api', mypageRoutes);  // 마이페이지 및 프로필 이미지 업로드 라우트 포함
+app.use('/api', mypageRoutes);
+
+// 클라이언트 라우팅 처리: 위에 정의된 API 라우트 외의 모든 GET 요청에 대해
+// React 애플리케이션의 진입점인 index.html 파일을 반환합니다.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'capstone-client', 'build', 'index.html'));
+});
 
 // 서버 실행
 const PORT = process.env.PORT || 3001;

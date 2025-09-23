@@ -59,8 +59,8 @@ const login = (req, res) => {
 // 카카오 로그인 콜백 API 처리
 const kakaoCallback = async (req, res) => {
     const { code } = req.query;
-    const KAKAO_REST_API_KEY = 'YOUR_REST_API_KEY';
-    const KAKAO_REDIRECT_URI = 'YOUR_REDIRECT_URI';
+    const KAKAO_REST_API_KEY = 'b0abcbdd05b3cc529063683c1a4e5003';
+    const KAKAO_REDIRECT_URI = 'http://localhost:3001/login/kakao/callback';
 
     try {
         // 1. 인증 코드로 토큰 요청
