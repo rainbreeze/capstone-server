@@ -14,6 +14,7 @@ const reviewRoutes = require('./routes/reviewRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const replyRoutes = require('./routes/replyRoutes');
 const mypageRoutes = require('./routes/mypageRoutes');
+const genreApiRoutes = require('./routes/genreApiRoutes');
 
 const app = express();
 
@@ -33,7 +34,8 @@ app.use('/playlistmusic', playlistMusicRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/comment', commentRoutes);
 app.use('/reply', replyRoutes);
-app.use('/api', mypageRoutes);  // 마이페이지 및 프로필 이미지 업로드 라우트 포함
+app.use('/api', mypageRoutes);
+app.use('/genreapi', genreApiRoutes);   // 마이페이지 및 프로필 이미지 업로드 라우트 포함
 
 // 서버 실행
 const PORT = process.env.PORT || 3001;
