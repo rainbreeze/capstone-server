@@ -3,14 +3,26 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-// GET /genreapi/hello → 외부 FastAPI 서버에 요청해서 받은 결과를 그대로 응답
-router.get('/hello', async (req, res) => {
+// dotenv를 통해 환경변수 불러오기 (.env 파일 사용)
+const dotenv = require('dotenv');
+dotenv.config();
+
+// BASE_URL: .env 파일에 정의된 FastAPI 서버 주소 사용
+const BASE_URL = process.env.FASTAPI_BASE_URL
+
+// 새로 추가하는 /predict 라우트 (POST)
+router.post('/predict', async (req, res) => {
     try {
-        console.log('genreapi실행')
-        const response = await axios.get('https://web-production-609c.up.railway.app/hello');
-        res.json(response.data);  // 받은 응답을 클라이언트에게 그대로 전달
+        // 클라이언트가 보낸 9개 특성값 JSON 그대로 FastAPI로 전달
+        console.log('predict동작')
+        const inputData = req.body;
+
+        const response = await axios.post(`${BASE_URL}/predict`, inputData);
+
+        // FastAPI에서 온 예측 결과 그대로 클라이언트에 전달
+        res.json(response.data);
     } catch (error) {
-        console.error('FastAPI 호출 실패:', error.message);
+        console.error('FastAPI /predict 호출 실패:', error.message);
         res.status(500).json({ error: 'FastAPI 서버 호출에 실패했습니다.' });
     }
 });
