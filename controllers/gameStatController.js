@@ -4,7 +4,7 @@ const saveStageStats = async(req, res) => {
     const { userId, stage, answer, steps, jumps, sprints, playTime, cleared } = req.body;
 
     try {
-        const result = await statModel.saveStageStats(userId, stage, answer, steps, jumps, sprints, playTime, cleared);
+        const result = await statsModel.saveStageStats(userId, stage, answer, steps, jumps, sprints, playTime, cleared);
         console.log('스테이지 데이터 저장 성공:', result);
 
         res.status(200).json({
