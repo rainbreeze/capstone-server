@@ -19,6 +19,8 @@ const genreApiRoutes = require('./routes/genreApiRoutes');
 
 const app = express();
 
+app.options('*', cors());
+
 // ✅ 정적 폴더 설정 - 업로드한 이미지 접근 허용
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
