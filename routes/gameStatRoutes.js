@@ -6,6 +6,6 @@ const gameStatController = require('../controllers/gameStatController'); // 컨�
 const router = express.Router();
 
 // 게임 데이터 저장 API
-router.post('/saveStageStats', gameStatController.saveStageStats);
+router.post('/saveGameStats', gameStatController.saveGameStats);
 
 module.exports = router;
