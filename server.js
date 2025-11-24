@@ -42,7 +42,7 @@ app.use('/api', mypageRoutes);
 app.use('/genreapi', genreApiRoutes); // 마이페이지 및 프로필 이미지 업로드 라우트 포함
 
 // 서버 실행
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`서버가 ${PORT} 포트에서 실행 중입니다.`);
 });
