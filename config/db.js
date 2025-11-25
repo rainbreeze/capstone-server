@@ -1,5 +1,5 @@
 // config/db.js
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
     host: 'maglev.proxy.rlwy.net',
@@ -8,9 +8,9 @@ const pool = mysql.createPool({
     database: 'railway',
     port: 30153,
     waitForConnections: true,
-    connectionLimit: 10,            // 동시에 열 수 있는 커넥션 수
+    connectionLimit: 10,
     queueLimit: 0,
-    multipleStatements: true        // 여러 쿼리 실행 가능하게 함
+    multipleStatements: true
 });
 
 // (선택) 연결 확인
