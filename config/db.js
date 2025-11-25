@@ -1,5 +1,5 @@
 // config/db.js
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2');
 
 const pool = mysql.createPool({
     host: 'maglev.proxy.rlwy.net',
@@ -20,7 +20,7 @@ pool.getConnection((err, connection) => {
         return;
     }
     console.log('MySQL 풀 연결 성공');
-    connection.release(); // 풀에 반환
+    connection.release();
 });
 
 module.exports = pool;
