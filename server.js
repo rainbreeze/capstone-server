@@ -8,14 +8,18 @@ const db = require('./config/db');
 const registerRoutes = require('./routes/registerRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 const gameRoutes = require('./routes/gameRoutes');
+const gameStatRoutes = require('./routes/gameStatRoutes');
 const playlistRoutes = require('./routes/playlistRoutes');
 const playlistMusicRoutes = require('./routes/playlistMusicRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const replyRoutes = require('./routes/replyRoutes');
 const mypageRoutes = require('./routes/mypageRoutes');
+const genreApiRoutes = require('./routes/genreApiRoutes');
 
 const app = express();
+
+app.options('*', cors());
 
 // ✅ 정적 폴더 설정 - 업로드한 이미지 접근 허용
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -32,12 +36,14 @@ app.use(bodyParser.json());
 app.use('/register', registerRoutes);
 app.use('/login', loginRoutes);
 app.use('/game', gameRoutes);
+app.use('/saveStat', gameStatRoutes);
 app.use('/playlist', playlistRoutes);
 app.use('/playlistmusic', playlistMusicRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/comment', commentRoutes);
 app.use('/reply', replyRoutes);
 app.use('/api', mypageRoutes);
+app.use('/genreapi', genreApiRoutes);
 
 // 클라이언트 라우팅 처리: 위에 정의된 API 라우트 외의 모든 GET 요청에 대해
 // React 애플리케이션의 진입점인 index.html 파일을 반환합니다.
