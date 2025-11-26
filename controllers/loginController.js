@@ -2,7 +2,7 @@
 
 const jwt = require('jsonwebtoken');
 const loginModel = require('../models/loginModel');
-const axios = require('axios'); // axios 추가
+const axios = require('axios');
 
 // JWT 비밀 키
 const JWT_SECRET = 'your_jwt_secret_key';
@@ -12,31 +12,24 @@ const login = (req, res) => {
     console.log('로그인 컨트롤러');
     const { userId, password } = req.body;
 
-    // 사용자 정보 조회
     loginModel.getUserById(userId, (err, result) => {
-        console.log('getUserById 호출됨');
         if (err) {
             console.error('로그인 실패:', err);
             return res.status(500).json({ error: '로그인 실패' });
         }
 
-        // 사용자 존재하지 않음
         if (result.length === 0) {
             return res.status(401).json({ error: '아이디 또는 비밀번호가 잘못되었습니다.' });
         }
 
         const user = result[0];
-        console.log('정보: ', user);
 
-        // 비밀번호 비교
         loginModel.comparePassword(password, user.password, (err, isMatch) => {
-            console.log('comparePassword 호출됨');
             if (err) {
                 console.error('비밀번호 비교 실패:', err);
                 return res.status(500).json({ error: '로그인 실패' });
             }
 
-            // 비밀번호 일치하지 않음
             if (!isMatch) {
                 return res.status(401).json({ error: '아이디 또는 비밀번호가 잘못되었습니다.' });
             }
@@ -51,7 +44,15 @@ const login = (req, res) => {
                 { expiresIn: '1h' }
             );
 
-            res.status(200).json({ message: '로그인 성공!', token });
+            res.status(200).json({
+                message: '로그인 성공!',
+                token,
+                user: {
+                    userId: user.userId,
+                    userName: user.userName,
+                    profileImage: user.profileImage
+                }
+            });
         });
     });
 };
@@ -91,7 +92,7 @@ const kakaoCallback = async (req, res) => {
         const userName = kakaoUser.properties.nickname;
         const profileImage = kakaoUser.properties.profile_image;
 
-        // 3. 우리 DB에 사용자 정보가 있는지 확인
+        // 3. DB 사용자 확인 및 처리
         loginModel.getKakaoUserById(kakaoId, (err, user) => {
             if (err) {
                 console.error('카카오 로그인 실패:', err);
@@ -100,7 +101,7 @@ const kakaoCallback = async (req, res) => {
 
             let finalUser = user;
             if (!finalUser) {
-                // 사용자가 없으면 회원가입
+                // 회원가입 처리
                 const newUser = {
                     userId: `kakao_${kakaoId}`,
                     userName: userName,
@@ -132,8 +133,21 @@ const kakaoCallback = async (req, res) => {
                 { expiresIn: '1h' }
             );
 
-            res.cookie('token', token, { httpOnly: true });
-            res.redirect('/');
+            // [수정됨] 클라이언트(React)가 읽을 수 있도록 쿠키 설정 (httpOnly: false)
+            const cookieOptions = {
+                path: '/',
+                httpOnly: false,
+                maxAge: 60 * 1000 // 1분 동안 유효 (전송용)
+            };
+
+            res.cookie('token', token, cookieOptions);
+            res.cookie('userId', user.userId, cookieOptions);
+            // 한글 이름 깨짐 방지를 위해 인코딩
+            res.cookie('userName', encodeURIComponent(user.userName), cookieOptions);
+            res.cookie('profileImage', user.profileImage || '', cookieOptions);
+
+            // [중요] 프론트엔드 홈(포트 3000)으로 리다이렉트
+            res.redirect('http://localhost:3000/home');
         }
 
     } catch (error) {

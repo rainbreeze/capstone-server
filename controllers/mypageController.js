@@ -1,3 +1,5 @@
+// controllers/mypageController.js
+
 const path = require('path');
 const db = require('../config/db');
 
@@ -8,7 +10,8 @@ const getMyPage = async (req, res) => {
         if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
         const [user] = await new Promise((resolve, reject) => {
-            const query = 'SELECT userName, userId, email, createdAt, profileImage FROM users WHERE userId = ?';
+            // [수정됨] SELECT 문에서 email 제거
+            const query = 'SELECT userName, userId, createdAt, profileImage FROM users WHERE userId = ?';
             db.query(query, [userId], (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
