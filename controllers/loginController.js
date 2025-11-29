@@ -61,7 +61,7 @@ const login = (req, res) => {
 const kakaoCallback = async (req, res) => {
     const { code } = req.query;
     const KAKAO_REST_API_KEY = 'b0abcbdd05b3cc529063683c1a4e5003';
-    const KAKAO_REDIRECT_URI = 'http://localhost:3001/login/kakao/callback';
+    const KAKAO_REDIRECT_URI = `${process.env.REACT_APP_API_URL}/login/kakao/callback`;
 
     try {
         // 1. 인증 코드로 토큰 요청
@@ -147,7 +147,7 @@ const kakaoCallback = async (req, res) => {
             res.cookie('profileImage', user.profileImage || '', cookieOptions);
 
             // [중요] 프론트엔드 홈(포트 3000)으로 리다이렉트
-            res.redirect('http://localhost:3000/home');
+            res.redirect(`${process.env.REACT_APP_CLIENT_URL}/home`);
         }
 
     } catch (error) {
