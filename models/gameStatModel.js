@@ -12,7 +12,7 @@ const saveGameStats = async(userId, answer, steps, jumps, sprints, playTime, cle
         VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
-    const [result] = await db.execute(query, [
+    const result = await db.execute(query, [
         userId,
         answer,
         steps,
