@@ -1,5 +1,5 @@
 const statsModel = require('../models/gameStatModel');
-const { getDataset, applyChoices, applyStats, createAnswerJSON, convertDatasetToFormData } = require('../service/datasetService');
+const { getDataset, applyChoices, applyStats, createAnswerJSON, convertDatasetToFormData } = require('../services/dataSetService');
 
 const saveGameStats = async(req, res) => {
     const { userId, answer, steps, jumps, sprints, playTime, cleared } = req.body;
