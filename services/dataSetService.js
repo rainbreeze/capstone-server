@@ -86,7 +86,9 @@ function convertDatasetToFormData(dataset) {
     dataset.forEach((item) => {
         // avg 값을 그대로 사용, key 이름에 쉼표 제거
         const key = item.name.replace(",", "");
-        formData[key] = item.avg;
+
+        //payload 역할
+        formData[key] = parseFloat(item.avg);
     });
 
     return formData;
