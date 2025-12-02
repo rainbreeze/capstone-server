@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 // Spotify 인증을 위해 Client ID와 Client Secret
-const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
-const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
+const CLIENT_ID = 'ef12e7f2cc9e44d289802eb44e98f5f4';
+const CLIENT_SECRET = '04e341715a2948b98dc67f88530500e3';
 
 // Spotify API 토큰을 얻는 함수
 const getSpotifyAccessToken = async() => {
