@@ -15,6 +15,7 @@ const getLimitByScore = score => {
 };
 
 const getRandomItems = (arr, n) => {
+    console.log(arr);
     return arr.sort(() => Math.random() - 0.5).slice(0, n);
 };
 
