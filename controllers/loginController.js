@@ -134,20 +134,24 @@ const kakaoCallback = async (req, res) => {
             );
 
             // [수정됨] 클라이언트(React)가 읽을 수 있도록 쿠키 설정 (httpOnly: false)
-            const cookieOptions = {
-                path: '/',
-                httpOnly: false,
-                maxAge: 60 * 1000 // 1분 동안 유효 (전송용)
-            };
+            // const cookieOptions = {
+            //     path: '/',
+            //     httpOnly: false,
+            //     maxAge: 60 * 1000 // 1분 동안 유효 (전송용)
+            // };
+            const encodedUserName = encodeURIComponent(user.userName);
 
-            res.cookie('token', token, cookieOptions);
-            res.cookie('userId', user.userId, cookieOptions);
+            const redirectUrl = `${process.env.REACT_APP_CLIENT_URL}/login/kakao/callback?token=${token}&userId=${user.userId}&userName=${encodedUserName}&profileImage=${user.profileImage || ''}`;
+
+            // res.cookie('token', token, cookieOptions);
+            // res.cookie('userId', user.userId, cookieOptions);
             // 한글 이름 깨짐 방지를 위해 인코딩
-            res.cookie('userName', encodeURIComponent(user.userName), cookieOptions);
-            res.cookie('profileImage', user.profileImage || '', cookieOptions);
+            // res.cookie('userName', encodeURIComponent(user.userName), cookieOptions);
+            // res.cookie('profileImage', user.profileImage || '', cookieOptions);
 
             // [중요] 프론트엔드 홈(포트 3000)으로 리다이렉트
-            res.redirect(`${process.env.REACT_APP_CLIENT_URL}/home`);
+            res.redirect(redirectUrl);
+            
         }
 
     } catch (error) {
