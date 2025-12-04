@@ -7,8 +7,8 @@ const defaultDataset = [
     { name: "danceability", avg: 0.5, min: 0, max: 1 },
     { name: "energy", avg: 0.5, min: 0, max: 1 },
     { name: "key,", avg: 5, min: -1, max: 11 },
-    { name: "loudness", avg: -20, min: -60, max: 0 },
-    { name: "mode", avg: 1, min: 0, max: 1 }, // 0 아니면 1
+    { name: "loudness", avg: 0, min: -60, max: 0 },
+    { name: "mode", avg: 0, min: 0, max: 1 }, // 0 아니면 1
     { name: "speechiness", avg: 0.4, min: 0, max: 1 },
     { name: "acousticness", avg: 0.4, min: 0, max: 1 },
     { name: "instrumentalness", avg: 0.2, min: 0, max: 1 },
