@@ -22,7 +22,7 @@ const getAllReviews = (callback) => {
     const query = `
         SELECT * FROM reviews
         ORDER BY created_at DESC 
-        LIMIT 5
+        LIMIT 23
     `;
     db.query(query, (err, rows) => {
         console.log('모델 실행')
